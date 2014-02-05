@@ -13,3 +13,5 @@ With [packer installed](http://www.packer.io/intro/getting-started/setup.html):
     make
 
 The VMs will get spit out with the `.box` extension.
+
+Note: the makefile will also attempt to add the boxes to your Vagrant collection. If you don't want this to happen (e.g. in CI), run `make build` instead. See the makefile for details.
