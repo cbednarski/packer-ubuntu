@@ -11,7 +11,6 @@ With [packer installed](http://www.packer.io/intro/getting-started/setup.html):
     git clone https://github.com/cbednarski/ubuntu-14.04-base
     cd ubuntu-14.04-base
     make
+    make install
 
-The VMs will get spit out with the `.box` extension.
-
-Note: the makefile will also attempt to add the boxes to your Vagrant collection. If you don't want this to happen (e.g. in CI), run `make build` instead. See the makefile for details.
+The VMs will get spit out with the `.box` extension. `make install` will add the boxes to your Vagrant box list.
