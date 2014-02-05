@@ -1,23 +1,15 @@
-# Packer Template for Docker Images
+# Ubuntu 14.04 Base VM
 
-This repository contains a Packer template for building machine images
-that are Docker-ready on top of Ubuntu 12.04. This involves upgrading the
-kernel and installing Docker.
+This packer script creates base virtual machine images for use with Vagrant.
 
-Currently this is only setup for Amazon, but it should be trivial to add
-more platforms to this.
+[Based on work by Michell Hashimoto](https://github.com/mitchellh/packer-ubuntu-12.04-docker)
 
 ## Usage
 
-First, [install Packer](http://www.packer.io/intro/getting-started/setup.html).
-Then, clone this repository and `cd` into it.
+With [packer installed](http://www.packer.io/intro/getting-started/setup.html):
 
-Run the following:
+    git clone https://github.com/cbednarski/ubuntu-14.04-base
+    cd ubuntu-14.04-base
+    make
 
-```
-$ export AWS_ACCESS_KEY="your aws access key"
-$ export AWS_SECRET_KEY="your aws secret key"
-$ packer build template.json
-```
-
-At the end of that, you'll have an AMI ready to go for Docker.
+The VMs will get spit out with the `.box` extension.
