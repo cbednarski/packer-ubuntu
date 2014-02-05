@@ -4,4 +4,3 @@ build:
 clean:
 	rm -rf output-*
 	rm -rf packer_cache
-	rm *.box
