@@ -1,6 +1,6 @@
-# Ubuntu 14.04 Base VM
+# Ubuntu LTS Base VM
 
-This packer script creates base virtual machine images for use with Vagrant.
+This packer script creates base Ubuntu virtual machine images for use with Vagrant. It targets Ubuntu's LTS release line, and currently works with 12.04. I plan to target 14.04 when it's released.
 
 [Based on work by Michell Hashimoto](https://github.com/mitchellh/packer-ubuntu-12.04-docker)
 
@@ -8,8 +8,8 @@ This packer script creates base virtual machine images for use with Vagrant.
 
 With [packer installed](http://www.packer.io/intro/getting-started/setup.html):
 
-    git clone https://github.com/cbednarski/ubuntu-14.04-base
-    cd ubuntu-14.04-base
+    git clone https://github.com/cbednarski/ubuntu-lts-base
+    cd ubuntu-lts-base
     make
     make install
 
