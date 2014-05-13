@@ -1,6 +1,15 @@
 {
+  "variables": {
+    "iso_checksum": "ababb88a492e08759fddcf4f05e5ccc58ec9d47fa37550d63931d0a5fa4f7388",
+    "iso_checksum_type": "sha256",
+    "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04-server-amd64.iso",
+    "ssh_username": "vagrant",
+    "ssh_password": "vagrant"
+  },
   "builders": [
     {
+      "name":"vmware",
+      "vm_name":"ubuntu-1404-server-vmware",
       "boot_command": [
         "<esc><esc><enter><wait>",
         "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
@@ -12,23 +21,25 @@
       ],
       "boot_wait": "5s",
       "http_directory": "http",
-      "iso_checksum": "ababb88a492e08759fddcf4f05e5ccc58ec9d47fa37550d63931d0a5fa4f7388",
-      "iso_checksum_type": "sha256",
-      "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04-server-amd64.iso",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_url": "{{user `iso_url`}}",
       "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
-      "ssh_password": "vagrant",
-      "ssh_username": "vagrant",
+      "ssh_password": "{{user `ssh_username`}}",
+      "ssh_username": "{{user `ssh_password`}}",
       "ssh_wait_timeout": "20m",
       "tools_upload_flavor": "linux",
       "type": "vmware-iso"
     },
     {
+      "name":"virtualbox",
+      "vm_name":"ubuntu-1404-server-vbox",
       "boot_command": [
         "<esc><esc><enter><wait>",
         "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
         "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
         "hostname={{ .Name }} ",
-        "fb=false debconf/frontend=noninteractive ",
+        "fb=false debconf/fronten=d=noninteractive ",
         "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false ",
         "initrd=/install/initrd.gz -- <enter>"
       ],
@@ -36,12 +47,12 @@
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Ubuntu_64",
       "http_directory": "http",
-      "iso_checksum": "ababb88a492e08759fddcf4f05e5ccc58ec9d47fa37550d63931d0a5fa4f7388",
-      "iso_checksum_type": "sha256",
-      "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04-server-amd64.iso",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_url": "{{user `iso_url`}}",
       "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
-      "ssh_password": "vagrant",
-      "ssh_username": "vagrant",
+      "ssh_password": "{{user `ssh_username`}}",
+      "ssh_username": "{{user `ssh_password`}}",
       "ssh_wait_timeout": "20m",
       "type": "virtualbox-iso",
       "virtualbox_version_file": ".vbox_version"
@@ -49,8 +60,10 @@
   ],
   "post-processors": [
     {
-      "keep_input_artifact": true,
-      "type": "vagrant"
+      "keep_input_artifact": false,
+      "type": "vagrant",
+      "compression_level":2,
+      "output": "ubuntu-1404-server-{{.Provider}}.box"
     }
   ],
   "provisioners": [
@@ -61,10 +74,10 @@
     },
     {
       "override": {
-        "virtualbox-iso": {
+        "virtualbox": {
           "execute_command": "/bin/true"
         },
-        "vmware-iso": {
+        "vmware": {
           "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'"
         }
       },
@@ -73,10 +86,10 @@
     },
     {
       "override": {
-        "virtualbox-iso": {
+        "virtualbox": {
           "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'"
         },
-        "vmware-iso": {
+        "vmware": {
           "execute_command": "/bin/true"
         }
       },
