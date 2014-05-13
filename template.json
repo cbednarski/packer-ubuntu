@@ -85,14 +85,6 @@
       "virtualbox_version_file": ".vbox_version"
     }
   ],
-  "post-processors": [
-    {
-      "keep_input_artifact": false,
-      "type": "vagrant",
-      "compression_level":2,
-      "output": "ubuntu-1404-server-{{.Provider}}.box"
-    }
-  ],
   "provisioners": [
     {
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
@@ -129,6 +121,14 @@
         "scripts/vm_cleanup.sh"
       ],
       "type": "shell"
+    }
+  ],
+  "post-processors": [
+    {
+      "keep_input_artifact": false,
+      "type": "vagrant",
+      "compression_level":2,
+      "output": "ubuntu-1404-server-{{.Provider}}.box"
     }
   ]
 }
