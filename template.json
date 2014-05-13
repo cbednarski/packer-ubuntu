@@ -128,7 +128,7 @@
       "keep_input_artifact": false,
       "type": "vagrant",
       "compression_level":2,
-      "output": "ubuntu-1404-{{.Name}}.box"
+      "output": "ubuntu-1404-{{.BuildName}}.box"
     }
   ]
 }
