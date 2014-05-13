@@ -9,6 +9,6 @@ clean-all:
 	rm -rf packer_cache
 	rm -rf *.box
 install:
-	vagrant box add ubuntu-1204-vbox ./packer_virtualbox-iso_virtualbox.box --provider virtualbox --force
-	vagrant box add ubuntu-1204-vmware ./packer_vmware-iso_vmware.box --provider vmware_fusion --force
+	vagrant box add ubuntu-1204-vbox ./ubuntu-1404-vbox.box --provider virtualbox --force
+	vagrant box add ubuntu-1204-vmware ./ubuntu-1404-vmware.box --provider vmware_desktop --force
 	vagrant box list | grep ubuntu-1204

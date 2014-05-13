@@ -13,7 +13,7 @@
   "builders": [
     {
       "name":"vmware",
-      "vm_name":"ubuntu-1404-server-vmware",
+      "vm_name":"ubuntu-1404-vmware",
       "boot_command": [
         "<esc><esc><enter><wait>",
         "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
@@ -43,8 +43,8 @@
       }
     },
     {
-      "name":"virtualbox",
-      "vm_name":"ubuntu-1404-server-vbox",
+      "name":"vbox",
+      "vm_name":"ubuntu-1404-vbox",
       "boot_command": [
         "<esc><esc><enter><wait>",
         "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
@@ -93,7 +93,7 @@
     },
     {
       "override": {
-        "virtualbox": {
+        "vbox": {
           "execute_command": "/bin/true"
         },
         "vmware": {
@@ -105,7 +105,7 @@
     },
     {
       "override": {
-        "virtualbox": {
+        "vbox": {
           "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'"
         },
         "vmware": {
@@ -128,7 +128,7 @@
       "keep_input_artifact": false,
       "type": "vagrant",
       "compression_level":2,
-      "output": "ubuntu-1404-server-{{.Provider}}.box"
+      "output": "ubuntu-1404-{{.Name}}.box"
     }
   ]
 }
