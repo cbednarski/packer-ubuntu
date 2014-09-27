@@ -117,9 +117,7 @@
     },
     {
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
-      "scripts": [
-        "scripts/vm_cleanup.sh"
-      ],
+      "script": "scripts/vm_cleanup.sh",
       "type": "shell"
     }
   ],
