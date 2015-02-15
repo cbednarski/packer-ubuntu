@@ -16,3 +16,6 @@ umount /mnt
 
 #Cleanup VirtualBox
 rm $VBOX_ISO
+
+shutdown -r now
+sleep 60
