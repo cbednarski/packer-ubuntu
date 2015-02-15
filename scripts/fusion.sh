@@ -9,3 +9,5 @@ tar zxf /mnt/cdrom/VMwareTools-*.tar.gz -C /tmp/
 /tmp/vmware-tools-distrib/vmware-install.pl -d
 rm /home/vagrant/linux.iso
 umount /mnt/cdrom
+
+echo "answer AUTO_KMODS_ENABLED yes" >> /etc/vmware-tools/locations
