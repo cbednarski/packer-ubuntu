@@ -1,4 +1,4 @@
-all: build clean
+all: clean build
 
 validate:
 	packer validate template.json
