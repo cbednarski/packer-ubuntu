@@ -14,11 +14,10 @@ build-vmware: validate
 
 clean:
 	rm -rf output-*
-
-clean-all:
-	rm -rf output-*
-	rm -rf packer_cache
 	rm -rf *.box
+
+clean-all: clean
+	rm -rf packer_cache
 
 install:
 	vagrant box add ubuntu-1204-vbox ./ubuntu-1404-vbox.box --provider virtualbox --force
