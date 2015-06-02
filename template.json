@@ -1,4 +1,7 @@
 {
+  "push": {
+    "name": "cbednarski/ubuntu-1404"
+  },
   "variables": {
     "cpu_cores": 1,
     "memory": 512,
