@@ -128,7 +128,7 @@
     }
   ],
   "push": {
-    "name": "{{user `name`}}",
+    "name": "cbednarski/ubuntu-1404",
     "exclude":[".git"]
   },
   "post-processors": [
