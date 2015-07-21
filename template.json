@@ -1,6 +1,6 @@
 {
   "variables": {
-    "name":"cbednarski/ubuntu-1404",
+    "name": "cbednarski/ubuntu-1404",
     "cpu_cores": "1",
     "memory": "512",
     "disk_size": "40960",
@@ -24,7 +24,7 @@
         "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false ",
         "initrd=/install/initrd.gz -- <enter>"
       ],
-      "boot_wait": "15s",
+      "boot_wait": "5s",
       "disk_size": "{{user `disk_size`}}",
       "headless": "{{user `headless`}}",
       "http_directory": "http",
@@ -129,7 +129,12 @@
   ],
   "push": {
     "name": "{{user `name`}}",
-    "exclude":[".git"]
+    "exclude": [
+      ".git",
+      "packer_cache",
+      "output-vbox",
+      "output-vmware"
+    ]
   },
   "post-processors": [
     {
@@ -139,9 +144,9 @@
       "output": "ubuntu-1404-{{.BuildName}}.box"
     },
     {
-      "type":"atlas",
+      "type": "atlas",
       "artifact": "{{user `name`}}",
-      "artifact_type":"{{.BuildName}}"
+      "artifact_type": "{{.BuildName}}"
     }
   ]
 }
