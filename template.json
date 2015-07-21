@@ -24,7 +24,7 @@
         "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false ",
         "initrd=/install/initrd.gz -- <enter>"
       ],
-      "boot_wait": "10s",
+      "boot_wait": "15s",
       "disk_size": "{{user `disk_size`}}",
       "headless": "{{user `headless`}}",
       "http_directory": "http",
