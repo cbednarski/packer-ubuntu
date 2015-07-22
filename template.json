@@ -33,7 +33,7 @@
         "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false ",
         "initrd=/install/initrd.gz -- <enter>"
       ],
-      "boot_wait": "5s",
+      "boot_wait": "15s",
       "disk_size": "{{user `disk_size`}}",
       "headless": "{{user `headless`}}",
       "http_directory": "http",
@@ -64,7 +64,7 @@
         "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false ",
         "initrd=/install/initrd.gz -- <enter>"
       ],
-      "boot_wait": "5s",
+      "boot_wait": "15s",
       "disk_size": "{{user `disk_size`}}",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Ubuntu_64",
