@@ -11,6 +11,15 @@
     "ssh_username": "vagrant",
     "ssh_password": "vagrant"
   },
+  "push": {
+    "name": "{{user `name`}}",
+    "exclude": [
+      ".git",
+      "packer_cache",
+      "output-vbox",
+      "output-vmware"
+    ]
+  },
   "builders": [
     {
       "name": "vmware",
@@ -127,15 +136,6 @@
       "type": "shell"
     }
   ],
-  "push": {
-    "name": "{{user `name`}}",
-    "exclude": [
-      ".git",
-      "packer_cache",
-      "output-vbox",
-      "output-vmware"
-    ]
-  },
   "post-processors": [
     {
       "keep_input_artifact": false,
@@ -144,9 +144,24 @@
       "output": "ubuntu-1404-{{.BuildName}}.box"
     },
     {
+      "only":["vmware"],
       "type": "atlas",
       "artifact": "{{user `name`}}",
-      "artifact_type": "{{.BuildName}}"
+      "artifact_type": "vagrant.box",
+      "metadata": {
+        "created_at": "{{timestamp}}",
+        "provider":"vmware_desktop"
+      }
+    },
+    {
+      "only":["vbox"],
+      "type": "atlas",
+      "artifact": "{{user `name`}}",
+      "artifact_type": "vagrant.box",
+      "metadata": {
+        "created_at": "{{timestamp}}",
+        "provider":"virtualbox"
+      }
     }
   ]
 }
