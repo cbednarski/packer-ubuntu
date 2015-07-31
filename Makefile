@@ -1,16 +1,16 @@
 all: clean build
 
 validate:
-	packer validate template.json
+	packer validate 1404-min.json
 
 build: validate
-	packer build template.json
+	packer build 1404-min.json
 
 build-vbox: validate
-	packer build -only=vbox template.json
+	packer build -only=vbox 1404-min.json
 
 build-vmware: validate
-	packer build -only=vmware template.json
+	packer build -only=vmware 1404-min.json
 
 clean:
 	rm -rf output-*

@@ -1,0 +1,170 @@
+{
+  "variables": {
+    "name": "cbednarski/ubuntu-1404",
+    "cpu_cores": "1",
+    "memory": "512",
+    "disk_size": "40960",
+    "headless": "true",
+    "iso_checksum": "8acd2f56bfcba2f7ac74a7e4a5e565ce68c024c38525c0285573e41c86ae90c0",
+    "iso_checksum_type": "sha256",
+    "iso_url": "http://releases.ubuntu.com/14.04.2/ubuntu-14.04.2-server-amd64.iso",
+    "ssh_username": "vagrant",
+    "ssh_password": "vagrant",
+    "version":"0.0.1"
+  },
+  "push": {
+    "name": "{{user `name`}}",
+    "exclude": [
+      ".git",
+      "packer_cache",
+      "output-vbox",
+      "output-vmware"
+    ]
+  },
+  "builders": [
+    {
+      "name": "vmware",
+      "vm_name": "ubuntu-1404-vmware",
+      "boot_command": [
+        "<esc><esc><enter><wait>",
+        "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
+        "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
+        "hostname={{ .Name }} ",
+        "fb=false debconf/frontend=noninteractive ",
+        "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false ",
+        "initrd=/install/initrd.gz -- <enter>"
+      ],
+      "boot_wait": "15s",
+      "disk_size": "{{user `disk_size`}}",
+      "headless": "{{user `headless`}}",
+      "http_directory": "http",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_url": "{{user `iso_url`}}",
+      "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
+      "ssh_password": "{{user `ssh_username`}}",
+      "ssh_username": "{{user `ssh_password`}}",
+      "ssh_wait_timeout": "20m",
+      "tools_upload_flavor": "linux",
+      "type": "vmware-iso",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "memsize": "{{user `memory`}}",
+        "numvcpus": "{{user `cpu_cores`}}"
+      }
+    },
+    {
+      "name": "vbox",
+      "vm_name": "ubuntu-1404-vbox",
+      "boot_command": [
+        "<esc><esc><enter><wait>",
+        "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
+        "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
+        "hostname={{ .Name }} ",
+        "fb=false debconf/fronten=d=noninteractive ",
+        "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false ",
+        "initrd=/install/initrd.gz -- <enter>"
+      ],
+      "boot_wait": "15s",
+      "disk_size": "{{user `disk_size`}}",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "guest_os_type": "Ubuntu_64",
+      "headless": "{{user `headless`}}",
+      "http_directory": "http",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_url": "{{user `iso_url`}}",
+      "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
+      "ssh_password": "{{user `ssh_username`}}",
+      "ssh_username": "{{user `ssh_password`}}",
+      "ssh_wait_timeout": "20m",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{user `memory`}}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "{{user `cpu_cores`}}"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version"
+    }
+  ],
+  "provisioners": [
+    {
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "script": "scripts/packages.sh",
+      "type": "shell"
+    },
+    {
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "script": "scripts/vagrant.sh",
+      "type": "shell"
+    },
+    {
+      "override": {
+        "vbox": {
+          "execute_command": "/bin/true"
+        },
+        "vmware": {
+          "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'"
+        }
+      },
+      "script": "scripts/fusion.sh",
+      "type": "shell"
+    },
+    {
+      "override": {
+        "vbox": {
+          "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'"
+        },
+        "vmware": {
+          "execute_command": "/bin/true"
+        }
+      },
+      "script": "scripts/virtualbox.sh",
+      "type": "shell"
+    },
+    {
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "script": "scripts/vm_cleanup.sh",
+      "type": "shell"
+    }
+  ],
+  "post-processors": [
+    {
+      "keep_input_artifact": false,
+      "type": "vagrant",
+      "compression_level": 9,
+      "output": "ubuntu-1404-{{.BuildName}}.box"
+    },
+    {
+      "only":["vmware"],
+      "type": "atlas",
+      "artifact": "{{user `name`}}",
+      "artifact_type": "vagrant.box",
+      "metadata": {
+        "created_at": "{{timestamp}}",
+        "provider":"vmware_desktop",
+        "version":"{{user `version`}}"
+      }
+    },
+    {
+      "only":["vbox"],
+      "type": "atlas",
+      "artifact": "{{user `name`}}",
+      "artifact_type": "vagrant.box",
+      "metadata": {
+        "created_at": "{{timestamp}}",
+        "provider":"virtualbox",
+        "version":"{{user `version`}}"
+      }
+    }
+  ]
+}

@@ -19,3 +19,8 @@ With [packer installed](http://www.packer.io/intro/getting-started/setup.html):
     make install
 
 `make install` will add the completed boxes to your local Vagrant boxes.
+
+## Builds
+
+- `1404-min` has a minimal set of packages required to run on Virtualbox and VMware. This is a good base for testing automated installs because it assumes almost nothing beyond the base operating system.
+- `1404-dev` builds on top of the `min` variant to include some developer tooling like vim, tree, [ifs](https://github.com/cbednarski/ifs-python), and [hostess](https://github.com/cbednarski/hostess).

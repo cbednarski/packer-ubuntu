@@ -6,4 +6,3 @@ apt-get install -y linux-generic linux-headers-generic linux-headers-server linu
 # Reboot with the new kernel so we can build the proper guest additions
 shutdown -r now
 sleep 60
-# apt-get install -y vim tree
