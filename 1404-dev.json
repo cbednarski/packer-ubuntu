@@ -18,7 +18,8 @@
       ".git",
       "packer_cache",
       "output-vbox",
-      "output-vmware"
+      "output-vmware",
+      "*.box"
     ]
   },
   "builders": [
