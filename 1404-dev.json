@@ -5,12 +5,11 @@
     "memory": "512",
     "disk_size": "40960",
     "headless": "true",
-    "iso_checksum": "8acd2f56bfcba2f7ac74a7e4a5e565ce68c024c38525c0285573e41c86ae90c0",
+    "iso_checksum": "a3b345908a826e262f4ea1afeb357fd09ec0558cf34e6c9112cead4bb55ccdfb",
     "iso_checksum_type": "sha256",
-    "iso_url": "http://releases.ubuntu.com/14.04.2/ubuntu-14.04.2-server-amd64.iso",
+    "iso_url": "http://releases.ubuntu.com/14.04.3/ubuntu-14.04.3-server-amd64.iso",
     "ssh_username": "vagrant",
-    "ssh_password": "vagrant",
-    "version":"0.0.1"
+    "ssh_password": "vagrant"
   },
   "push": {
     "name": "{{user `name`}}",
@@ -140,32 +139,9 @@
   ],
   "post-processors": [
     {
-      "keep_input_artifact": false,
       "type": "vagrant",
       "compression_level": 9,
       "output": "ubuntu-1404-{{.BuildName}}.box"
-    },
-    {
-      "only":["vmware"],
-      "type": "atlas",
-      "artifact": "{{user `name`}}",
-      "artifact_type": "vagrant.box",
-      "metadata": {
-        "created_at": "{{timestamp}}",
-        "provider":"vmware_desktop",
-        "version":"{{user `version`}}"
-      }
-    },
-    {
-      "only":["vbox"],
-      "type": "atlas",
-      "artifact": "{{user `name`}}",
-      "artifact_type": "vagrant.box",
-      "metadata": {
-        "created_at": "{{timestamp}}",
-        "provider":"virtualbox",
-        "version":"{{user `version`}}"
-      }
     }
   ]
 }
