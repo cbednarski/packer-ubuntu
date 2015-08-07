@@ -24,7 +24,7 @@
   "builders": [
     {
       "name": "vmware",
-      "vm_name": "ubuntu-1404-vmware",
+      "vm_name": "ubuntu-1404-dev-vmware",
       "boot_command": [
         "<esc><esc><enter><wait>",
         "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
@@ -55,7 +55,7 @@
     },
     {
       "name": "vbox",
-      "vm_name": "ubuntu-1404-vbox",
+      "vm_name": "ubuntu-1404-dev-vbox",
       "boot_command": [
         "<esc><esc><enter><wait>",
         "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
@@ -141,7 +141,7 @@
     {
       "type": "vagrant",
       "compression_level": 9,
-      "output": "ubuntu-1404-{{.BuildName}}.box"
+      "output": "ubuntu-1404-dev-{{.BuildName}}.box"
     }
   ]
 }
