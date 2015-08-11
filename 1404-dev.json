@@ -108,26 +108,19 @@
       "type": "shell"
     },
     {
-      "override": {
-        "vbox": {
-          "execute_command": "/bin/true"
-        },
-        "vmware": {
-          "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'"
-        }
-      },
-      "script": "scripts/fusion.sh",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "script": "scripts/dev-packages.sh",
       "type": "shell"
     },
     {
-      "override": {
-        "vbox": {
-          "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'"
-        },
-        "vmware": {
-          "execute_command": "/bin/true"
-        }
-      },
+      "only": ["vmware"],
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "script": "scripts/vmware.sh",
+      "type": "shell"
+    },
+    {
+      "only": ["vbox"],
+      "execute_command": "/bin/true",
       "script": "scripts/virtualbox.sh",
       "type": "shell"
     },
