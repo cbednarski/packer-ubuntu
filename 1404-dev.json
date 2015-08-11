@@ -141,6 +141,7 @@
     {
       "type": "vagrant",
       "compression_level": 9,
+      "keep_input_artifact": true,
       "output": "ubuntu-1404-dev-{{.BuildName}}.box"
     }
   ]
