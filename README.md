@@ -1,6 +1,6 @@
-# Ubuntu 14.04.2 (LTS) Base VM
+# Ubuntu 14.04.3 (LTS) Base VM
 
-This packer script creates no-frills Ubuntu 14.04.1 server virtual machine images for use with Vagrant (both VirtualBox and VMware Fusion). The image includes guest additions and basically nothing else. Feel free to use this as a base for other things.
+This packer script creates no-frills Ubuntu 14.04.3 server virtual machine images for use with Vagrant (both VirtualBox and VMware Fusion). The image includes guest additions and basically nothing else. Feel free to use this as a base for other things.
 
 ## Atlas
 
