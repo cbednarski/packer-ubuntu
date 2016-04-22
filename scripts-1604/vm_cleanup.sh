@@ -14,7 +14,7 @@ rm /var/lib/dhcp/*
 # (Vagrant will be able to) so make sure this is done in your final provisioner.
 sed -i "s/ens33/ens32/g" /etc/network/interfaces
 
-Zero out the free space to save space in the final image:
+# Zero out the free space to save space in the final image:
 echo "Zeroing device to make space..."
 dd if=/dev/zero of=/EMPTY bs=1M
 rm -f /EMPTY
