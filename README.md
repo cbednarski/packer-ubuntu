@@ -1,8 +1,10 @@
-# Ubuntu LTS Virtual Machines for VMware and VirtualBox
+# Ubuntu LTS Virtual Machines for Vagrant
 
 This repo includes a [Packer](https://packer.io) template that builds base VMs for [Vagrant](https://vagrantup.com). The VMs use Ubuntu LTS releases such as Ubuntu 14.04 Trusty Tahr and Ubuntu 16.04 Xenial Xerus. They use the server flavor and are 64-bit only.
 
-The images are designed to include as little as possible so you can build your own automation on top using chef, pupper, bash, [ifs](https://github.com/cbednarski/ifs-python), or whatever you like!
+The images are built for Vagrant using the VMware and VirtualBox providers, and support shared folders.
+
+Beyond that, the images are designed to include as little as possible so you can build your own automation on top using chef, pupper, bash, [ifs](https://github.com/cbednarski/ifs-python), or whatever you like!
 
 This project was originally based on [mitchellh/packer-ubuntu-12.04-docker](https://github.com/mitchellh/packer-ubuntu-12.04-docker) but has since diverged quite a bit. Feel free to clone this repo and use it as a basis for your own Vagrant boxes!
 
