@@ -1,6 +1,6 @@
-# Ubuntu 14.04.4 (LTS) Base VM
+# Ubuntu LTS Base VM
 
-This packer script creates no-frills Ubuntu 14.04.4 server virtual machine images for use with Vagrant (both VirtualBox and VMware Fusion). The image includes guest additions and basically nothing else. Feel free to use this as a base for other things.
+This packer script creates no-frills Ubuntu LTS server virtual machine images for use with Vagrant (both VirtualBox and VMware Fusion). The image includes guest additions and basically nothing else. Feel free to use this as a base for other things. Currently Ubuntu 14.04 Trusty Tahr and Ubuntu 16.04 Xenial Xerus are supported.
 
 ## Atlas
 
@@ -13,8 +13,8 @@ You can download tagged releases of this VM from [Atlas](https://atlas.hashicorp
 
 With [packer installed](http://www.packer.io/intro/getting-started/setup.html):
 
-    git clone https://github.com/cbednarski/ubuntu-1404-packer
-    cd ubuntu-1404-packer
+    git clone https://github.com/cbednarski/packer-ubuntu
+    cd packer-ubuntu
     make
     make install
 
