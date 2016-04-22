@@ -4,6 +4,8 @@ This packer script creates no-frills Ubuntu LTS server virtual machine images fo
 
 ## Atlas
 
+Note: 16.04 is not yet available on Atlas.
+
 You can download tagged releases of this VM from [Atlas](https://atlas.hashicorp.com/cbednarski/boxes/ubuntu-1404) via:
 
     vagrant init cbednarski/ubuntu-1404
@@ -11,7 +13,7 @@ You can download tagged releases of this VM from [Atlas](https://atlas.hashicorp
 
 ## Build It
 
-With [packer installed](http://www.packer.io/intro/getting-started/setup.html):
+With [packer installed](http://www.packer.io/download):
 
     git clone https://github.com/cbednarski/packer-ubuntu
     cd packer-ubuntu
@@ -22,5 +24,5 @@ With [packer installed](http://www.packer.io/intro/getting-started/setup.html):
 
 ## Builds
 
-- `1404-min` has a minimal set of packages required to run on Virtualbox and VMware. This is a good base for testing automated installs because it assumes almost nothing beyond the base operating system.
+- `1604-min` and `1404-min` have a minimal set of packages required to run on Virtualbox and VMware. This is a good base for testing automated installs because it assumes almost nothing beyond the base operating system.
 - `1404-dev` builds on top of the `min` variant to include some developer tooling like vim, tree, [ifs](https://github.com/cbednarski/ifs-python), and [hostess](https://github.com/cbednarski/hostess).
