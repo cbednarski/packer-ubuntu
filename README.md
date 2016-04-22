@@ -1,28 +1,33 @@
-# Ubuntu LTS Base VM
+# Ubuntu LTS Virtual Machines for VMware and VirtualBox
 
-This packer script creates no-frills Ubuntu LTS server virtual machine images for use with Vagrant (both VirtualBox and VMware Fusion). The image includes guest additions and basically nothing else. Feel free to use this as a base for other things. Currently Ubuntu 14.04 Trusty Tahr and Ubuntu 16.04 Xenial Xerus are supported.
+This repo includes a [Packer](https://packer.io) template that builds base VMs for [Vagrant](https://vagrantup.com). The VMs use Ubuntu LTS releases such as Ubuntu 14.04 Trusty Tahr and Ubuntu 16.04 Xenial Xerus. They use the server flavor and are 64-bit only.
+
+The images are designed to include as little as possible so you can build your own automation on top using chef, pupper, bash, [ifs](https://github.com/cbednarski/ifs-python), or whatever you like!
+
+This project was originally based on [mitchellh/packer-ubuntu-12.04-docker](https://github.com/mitchellh/packer-ubuntu-12.04-docker) but has since diverged quite a bit. Feel free to clone this repo and use it as a basis for your own Vagrant boxes!
 
 ## Atlas
 
-Note: 16.04 is not yet available on Atlas.
+You can download pre-built releases from [Atlas](https://atlas.hashicorp.com/cbednarski/boxes/ubuntu-1604) via:
 
-You can download tagged releases of this VM from [Atlas](https://atlas.hashicorp.com/cbednarski/boxes/ubuntu-1404) via:
-
-    vagrant init cbednarski/ubuntu-1404
+    vagrant init cbednarski/ubuntu-1604
     vagrant up
+
+See [all of the boxes](https://atlas.hashicorp.com/boxes/search?utf8=✓&sort=&provider=&q=cbednarski).
 
 ## Build It
 
-With [packer installed](http://www.packer.io/download):
+If you want to build the boxes yourself, or customize them, you can do so with [packer](http://www.packer.io/download)!
 
     git clone https://github.com/cbednarski/packer-ubuntu
     cd packer-ubuntu
     make
     make install
 
-`make install` will add the completed boxes to your local Vagrant boxes.
+The makefile helps you build one of the images and add the finished box to Vagrant. Take a peek at the `Makefile` to see how to build the other boxes.
 
 ## Builds
 
-- `1604-min` and `1404-min` have a minimal set of packages required to run on Virtualbox and VMware. This is a good base for testing automated installs because it assumes almost nothing beyond the base operating system.
-- `1404-dev` builds on top of the `min` variant to include some developer tooling like vim, tree, [ifs](https://github.com/cbednarski/ifs-python), and [hostess](https://github.com/cbednarski/hostess).
+- `1604-min` and `1404-min` have a minimal set of packages required to run on Virtualbox and VMware with shared folders. This is a good base for testing automated installs because it assumes almost nothing beyond the base operating system.
+
+- `1404-dev` builds on top of the `min` variant to include some developer tooling like vim, tree, [ifs](https://github.com/cbednarski/ifs-python), and [hostess](https://github.com/cbednarski/hostess) so you don't have to reinstall them every single time.
