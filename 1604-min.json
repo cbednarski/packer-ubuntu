@@ -1,13 +1,15 @@
 {
   "variables": {
-    "name": "cbednarski/ubuntu-1404",
+    "name": "cbednarski/ubuntu-1604",
+    "build_cpu_cores": "2",
+    "build_memory": "1024",
     "cpu_cores": "1",
     "memory": "512",
     "disk_size": "40960",
     "headless": "true",
-    "iso_checksum": "07e4bb5569814eab41fafac882ba127893e3ff0bdb7ec931c9b2d040e3e94e7a",
+    "iso_checksum": "b8b172cbdf04f5ff8adc8c2c1b4007ccf66f00fc6a324a6da6eba67de71746f6",
     "iso_checksum_type": "sha256",
-    "iso_url": "http://releases.ubuntu.com/14.04.4/ubuntu-14.04.4-server-amd64.iso",
+    "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04-server-amd64.iso",
     "ssh_username": "vagrant",
     "ssh_password": "vagrant"
   },
@@ -24,24 +26,24 @@
   "builders": [
     {
       "name": "vmware",
-      "vm_name": "ubuntu-1404-vmware",
+      "vm_name": "ubuntu-1604-vmware",
       "boot_command": [
-        "<esc><esc><enter><wait>",
-        "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
+        "<enter><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
         "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
         "hostname={{ .Name }} ",
         "fb=false debconf/frontend=noninteractive ",
         "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false ",
         "initrd=/install/initrd.gz -- <enter>"
       ],
-      "boot_wait": "15s",
+      "boot_wait": "5s",
       "disk_size": "{{user `disk_size`}}",
       "headless": "{{user `headless`}}",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `iso_url`}}",
-      "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
+      "shutdown_command": "echo 'vagrant' | sudo -S shutdown -h now",
       "ssh_password": "{{user `ssh_username`}}",
       "ssh_username": "{{user `ssh_password`}}",
       "ssh_wait_timeout": "20m",
@@ -49,23 +51,28 @@
       "type": "vmware-iso",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
+        "memsize": "{{user `build_memory`}}",
+        "numvcpus": "{{user `build_cpu_cores`}}"
+      },
+      "vmx_data_post": {
+        "cpuid.coresPerSocket": "1",
         "memsize": "{{user `memory`}}",
         "numvcpus": "{{user `cpu_cores`}}"
       }
     },
     {
       "name": "vbox",
-      "vm_name": "ubuntu-1404-vbox",
+      "vm_name": "ubuntu-1604-vbox",
       "boot_command": [
-        "<esc><esc><enter><wait>",
-        "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
+        "<enter><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
         "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
         "hostname={{ .Name }} ",
         "fb=false debconf/fronten=d=noninteractive ",
         "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false ",
         "initrd=/install/initrd.gz -- <enter>"
       ],
-      "boot_wait": "15s",
+      "boot_wait": "5s",
       "disk_size": "{{user `disk_size`}}",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Ubuntu_64",
@@ -74,12 +81,26 @@
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `iso_url`}}",
-      "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
+      "shutdown_command": "echo 'vagrant' | sudo -S shutdown -h now",
       "ssh_password": "{{user `ssh_username`}}",
       "ssh_username": "{{user `ssh_password`}}",
       "ssh_wait_timeout": "20m",
       "type": "virtualbox-iso",
       "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{user `build_memory`}}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "{{user `build_cpu_cores`}}"
+        ]
+      ],
+      "vboxmanage_post": [
         [
           "modifyvm",
           "{{.Name}}",
@@ -99,29 +120,29 @@
   "provisioners": [
     {
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
-      "script": "scripts/packages.sh",
+      "script": "scripts-1604/packages.sh",
       "type": "shell"
     },
     {
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
-      "script": "scripts/vagrant.sh",
+      "script": "scripts-1604/vagrant.sh",
       "type": "shell"
     },
     {
       "only": ["vmware"],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
-      "script": "scripts/vmware.sh",
+      "script": "scripts-1604/vmware.sh",
       "type": "shell"
     },
     {
       "only": ["vbox"],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
-      "script": "scripts/virtualbox.sh",
+      "script": "scripts-1604/virtualbox.sh",
       "type": "shell"
     },
     {
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
-      "script": "scripts/vm_cleanup.sh",
+      "script": "scripts-1604/vm_cleanup.sh",
       "type": "shell"
     }
   ],
@@ -129,7 +150,7 @@
     {
       "type": "vagrant",
       "keep_input_artifact": false,
-      "output": "ubuntu-1404-{{.BuildName}}.box"
+      "output": "ubuntu-1604-{{.BuildName}}.box"
     }
   ]
 }

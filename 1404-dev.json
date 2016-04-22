@@ -133,8 +133,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "compression_level": 9,
-      "keep_input_artifact": true,
+      "keep_input_artifact": false,
       "output": "ubuntu-1404-dev-{{.BuildName}}.box"
     }
   ]
