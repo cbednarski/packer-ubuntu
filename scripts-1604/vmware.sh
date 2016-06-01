@@ -1,4 +1,4 @@
-# Install open-vm-tools so we get basic stuff like
+# Install open-vm-tools so we can mount shared folders
 apt-get install -y open-vm-tools
-shutdown -r now
-sleep 60
+# Add /mnt/hgfs so the mount works automatically with Vagrant
+mkdir /mnt/hgfs
