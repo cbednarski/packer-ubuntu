@@ -1,6 +1,8 @@
 {
   "variables": {
     "name": "cbednarski/ubuntu-1404-dev",
+    "build_cpu_cores": "2",
+    "build_memory": "1024",
     "cpu_cores": "1",
     "memory": "512",
     "disk_size": "40960",
@@ -49,6 +51,11 @@
       "type": "vmware-iso",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
+        "memsize": "{{user `build_memory`}}",
+        "numvcpus": "{{user `build_cpu_cores`}}"
+      },
+      "vmx_data_post": {
+        "cpuid.coresPerSocket": "1",
         "memsize": "{{user `memory`}}",
         "numvcpus": "{{user `cpu_cores`}}"
       }
@@ -80,6 +87,20 @@
       "ssh_wait_timeout": "20m",
       "type": "virtualbox-iso",
       "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{user `build_memory`}}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "{{user `build_cpu_cores`}}"
+        ]
+      ],
+      "vboxmanage_post": [
         [
           "modifyvm",
           "{{.Name}}",
