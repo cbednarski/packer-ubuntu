@@ -1,0 +1,71 @@
+{
+  "variables": {
+    "name": "cbednarski/ubuntu-1404",
+    "build_cpu_cores": "2",
+    "build_memory": "1024",
+    "cpu_cores": "1",
+    "memory": "512",
+    "disk_size": "40960",
+    "headless": "true",
+    "iso_checksum": "dde07d37647a1d2d9247e33f14e91acb10445a97578384896b4e1d985f754cc1",
+    "iso_checksum_type": "sha256",
+    "iso_url": "http://releases.ubuntu.com/14.04.5/ubuntu-14.04.5-server-amd64.iso",
+    "ssh_username": "vagrant",
+    "ssh_password": "vagrant"
+  },
+  "push": {
+    "name": "{{user `name`}}",
+    "exclude": [
+      ".git",
+      "packer_cache",
+      "output-vbox",
+      "output-vmware",
+      "*.box"
+    ]
+  },
+  "builders": [
+    {
+      "name": "vmware",
+      "vm_name": "ubuntu-1404-vmware",
+      "boot_command": [
+        "<esc><esc><enter><wait>",
+        "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
+        "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
+        "hostname={{ .Name }} ",
+        "fb=false debconf/frontend=noninteractive ",
+        "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false ",
+        "initrd=/install/initrd.gz -- <enter>"
+      ],
+      "boot_wait": "15s",
+      "disk_size": "{{user `disk_size`}}",
+      "headless": "{{user `headless`}}",
+      "http_directory": "http",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_url": "{{user `iso_url`}}",
+      "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
+      "ssh_password": "{{user `ssh_username`}}",
+      "ssh_username": "{{user `ssh_password`}}",
+      "ssh_wait_timeout": "20m",
+      "tools_upload_flavor": "linux",
+      "type": "vmware-iso",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "memsize": "{{user `build_memory`}}",
+        "numvcpus": "{{user `build_cpu_cores`}}"
+      },
+      "vmx_data_post": {
+        "cpuid.coresPerSocket": "1",
+        "memsize": "{{user `memory`}}",
+        "numvcpus": "{{user `cpu_cores`}}"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "script": "scripts/vm_cleanup.sh",
+      "type": "shell"
+    }
+  ]
+}
