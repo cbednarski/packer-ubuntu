@@ -1,1 +1,7 @@
-shutdown -h now
+
+
+
+
+
+shutdown -r now
+sleep 5

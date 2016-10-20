@@ -34,6 +34,12 @@
   "provisioners": [
     {
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "expect_disconnect": false,
+      "script": "scripts/shutdown.sh",
+      "type": "shell"
+    },
+    {
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "script": "scripts/shutdown.sh",
       "type": "shell"
     }
