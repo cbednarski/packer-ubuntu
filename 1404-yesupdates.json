@@ -48,31 +48,8 @@
   ],
   "provisioners": [
     {
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
-      "script": "scripts/packages.sh",
+      "inline": "echo 'vagrant' | {{.Vars}} sudo shutdown -h now",
       "type": "shell"
-    },
-    {
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
-      "script": "scripts/vagrant.sh",
-      "type": "shell"
-    },
-    {
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
-      "script": "scripts/vmware.sh",
-      "type": "shell"
-    },
-    {
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
-      "script": "scripts/vm_cleanup.sh",
-      "type": "shell"
-    }
-  ],
-  "post-processors": [
-    {
-      "type": "vagrant",
-      "keep_input_artifact": false,
-      "output": "ubuntu-1404-{{.BuildName}}.box"
     }
   ]
 }
