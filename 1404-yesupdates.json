@@ -23,32 +23,18 @@
   "builders": [
     {
       "name": "vmware",
-      "vm_name": "ubuntu-1404-vmware",
-      "boot_wait": "15s",
-      "headless": "{{user `headless`}}",
-      "http_directory": "http",
-      "source_path": "input-vmware/ubuntu-1404-vmware.vmx",
-      "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
       "ssh_password": "{{user `ssh_username`}}",
       "ssh_username": "{{user `ssh_password`}}",
-      "ssh_wait_timeout": "20m",
-      "tools_upload_flavor": "linux",
-      "type": "vmware-vmx",
-      "vmx_data": {
-        "cpuid.coresPerSocket": "1",
-        "memsize": "{{user `build_memory`}}",
-        "numvcpus": "{{user `build_cpu_cores`}}"
-      },
-      "vmx_data_post": {
-        "cpuid.coresPerSocket": "1",
-        "memsize": "{{user `memory`}}",
-        "numvcpus": "{{user `cpu_cores`}}"
-      }
+      "ssh_host": "172.16.221.212",
+      "type": "null",
+      "communicator": "ssh",
+      "ssh_pty": "true"
     }
   ],
   "provisioners": [
     {
-      "inline": "echo 'vagrant' | {{.Vars}} sudo shutdown -h now",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "script": "scripts/shutdown.sh",
       "type": "shell"
     }
   ]
