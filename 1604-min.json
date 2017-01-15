@@ -52,7 +52,16 @@
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "{{user `build_memory`}}",
-        "numvcpus": "{{user `build_cpu_cores`}}"
+        "numvcpus": "{{user `build_cpu_cores`}}",
+        "ethernet0.addresstype": "generated",
+        "ethernet0.bsdname": "en0",
+        "ethernet0.connectiontype": "nat",
+        "ethernet0.displayname": "Ethernet",
+        "ethernet0.linkstatepropagation.enable": "FALSE",
+        "ethernet0.pcislotnumber": "32",
+        "ethernet0.present": "TRUE",
+        "ethernet0.virtualdev": "e1000",
+        "ethernet0.wakeonpcktrcv": "FALSE"
       },
       "vmx_data_post": {
         "cpuid.coresPerSocket": "1",
