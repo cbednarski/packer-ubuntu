@@ -12,6 +12,9 @@ build-vbox: validate
 build-vmware: validate
 	packer build -only=vmware 1604-min.json
 
+build-large: validate
+	packer build -var name=cbednarski/ubuntu-1604-large -var build_name=ubuntu-1604-large -var cpu_cores=4 -var memory=4096 -var disk_size=163840 1604-min.json
+
 clean:
 	rm -rf output-*
 	rm -rf *.box

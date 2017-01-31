@@ -1,6 +1,7 @@
 {
   "variables": {
     "name": "cbednarski/ubuntu-1604",
+    "build_name": "ubuntu-1604",
     "build_cpu_cores": "2",
     "build_memory": "1024",
     "cpu_cores": "1",
@@ -18,20 +19,20 @@
     "exclude": [
       ".git",
       "packer_cache",
-      "output-vbox",
-      "output-vmware",
+      "output*-vbox",
+      "output*-vmware",
       "*.box"
     ]
   },
   "builders": [
     {
-      "name": "vmware",
-      "vm_name": "ubuntu-1604-vmware",
+      "name": "{{ user `build_name` }}-vmware",
+      "vm_name": "{{ user `build_name` }}-vmware",
       "boot_command": [
         "<enter><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
         "noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
         "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
-        "hostname={{ .Name }} ",
+        "hostname={{ user `build_name` }}-vmware ",
         "fb=false debconf/frontend=noninteractive ",
         "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false ",
         "initrd=/install/initrd.gz -- <enter>"
@@ -70,13 +71,13 @@
       }
     },
     {
-      "name": "vbox",
-      "vm_name": "ubuntu-1604-vbox",
+      "name": "{{ user `build_name` }}-vbox",
+      "vm_name": "{{ user `build_name` }}-vbox",
       "boot_command": [
         "<enter><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
         "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
         "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
-        "hostname={{ .Name }} ",
+        "hostname={{ user `build_name` }}-vmware ",
         "fb=false debconf/fronten=d=noninteractive ",
         "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false ",
         "initrd=/install/initrd.gz -- <enter>"
@@ -138,28 +139,35 @@
       "type": "shell"
     },
     {
-      "only": ["vmware"],
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
-      "script": "scripts-1604/vmware.sh",
-      "type": "shell"
-    },
-    {
-      "only": ["vbox"],
+      "only": ["{{ user `build_name` }}-vbox"],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "script": "scripts-1604/virtualbox.sh",
       "type": "shell"
     },
     {
+      "only": ["{{ user `build_name` }}-vbox"],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
-      "script": "scripts-1604/vm_cleanup.sh",
+      "script": "scripts-1604/virtualbox_cleanup.sh",
+      "type": "shell"
+    },
+    {
+      "only": ["{{ user `build_name` }}-vmware"],
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "script": "scripts-1604/vmware.sh",
+      "type": "shell"
+    },
+    {
+      "only": ["{{ user `build_name` }}-vmware"],
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "script": "scripts-1604/vmware_cleanup.sh",
       "type": "shell"
     }
   ],
   "post-processors": [
     {
       "type": "vagrant",
-      "keep_input_artifact": false,
-      "output": "ubuntu-1604-{{.BuildName}}.box"
+      "keep_input_artifact": true,
+      "output": "{{.BuildName}}.box"
     }
   ]
 }
