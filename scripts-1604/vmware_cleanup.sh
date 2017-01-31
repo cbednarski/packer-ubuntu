@@ -2,12 +2,12 @@
 apt-get autoremove -y
 apt-get clean
 
+# Cleanup tools iso
+rm -f /home/vagrant/linux.iso
+
 # Removing leftover leases and persistent rules
 echo "cleaning up dhcp leases"
 rm /var/lib/dhcp/*
-
-# Cleanup tools iso
-rm -f /home/vagrant/linux.iso
 
 # Zero out the free space to save space in the final image:
 echo "Zeroing device to make space..."
